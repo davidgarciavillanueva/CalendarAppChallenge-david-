@@ -49,3 +49,24 @@ class Day:
         self.date_: date = date_
         self.slots: dict[time, str | None] = {}
         self._init_slots()
+
+    def _init_slots(self):
+        for hour in range(24):
+            for minute in range(0, 60, 15):
+                self.slots[time(hour,minute)] = None
+
+    def add_event(self, event_id: str, start_at: time, end_at: time) -> None:
+        for slot in self.slots:
+            if start_at <= slot < end_at:
+                if self.slots[slot] is not None:
+                    slot_not_available_error()
+                self.slots[slot] = event_id
+
+    def delete_event(self, event_id: str):
+        deleted = False
+        for slot, saved_id in self.slots.items():
+            if saved_id == event_id:
+                self.slots[slot] = None
+                deleted = True
+        if not deleted:
+            event_not_found_error()
