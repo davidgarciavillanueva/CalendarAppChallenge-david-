@@ -104,3 +104,27 @@ class Calendar:
             event_not_found_error()
 
         is_new_date = False
+
+
+    def delete_event(self, event_id: str):
+        if event_id not in self.events:
+            event_not_found_error()
+
+        self.events.pop(event_id)
+
+        for day in self.days.values():
+            if event_id in day.slots.values():
+                day.delete_event(event_id)
+                break
+
+    def find_events(self, start_at: date, end_at: date) -> dict[date, list[Event]]:
+        pass
+    def delete_reminder(self, event_id: str, reminder_index: int):
+        pass
+
+    def list_reminders(self, event_id: str) -> list[Reminder]:
+        event = self.events.get(event_id)
+        if not event:
+            event_not_found_error()
+
+        return event.reminders
