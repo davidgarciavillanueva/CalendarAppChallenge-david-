@@ -70,3 +70,37 @@ class Day:
                 deleted = True
         if not deleted:
             event_not_found_error()
+
+
+    def update_event(self, event_id: str, start_at: time, end_at: time):
+        for slot in self.slots:
+            if self.slots[slot] == event_id:
+                self.slots[slot] = None
+
+        for slot in self.slots:
+            if start_at <= slot < end_at:
+                if self.slots[slot]:
+                    slot_not_available_error()
+                else:
+                    self.slots[slot] = event_id
+
+class Calendar:
+    def __init__(self):
+        self.days: dict[date, Day] = {}
+        self.events : dict[str, Event] = {}
+
+    def add_event(self, title: str, description: str, date_: date, start_at: time, end_at: time):
+        pass
+
+    def add_reminder(self, event_id: str, date_time: datetime, type_: str = Reminder.EMAIL):
+        pass
+
+    def find_available_slots(self, date_: date) -> list[time]:
+        pass
+
+    def update_event(self, event_id: str, title: str, description: str, date_: date, start_at: time, end_at: time):
+        event = self.events[event_id]
+        if not event:
+            event_not_found_error()
+
+        is_new_date = False
